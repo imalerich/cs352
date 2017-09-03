@@ -65,17 +65,17 @@ a program from modifying the memory associated with other programs.
 \textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
 
 	\begin{addmargin}[1em]{}
-		First we note that user programs run in different modes (user mode vs. kernel mode).
-		The CPU enforces that memory operations can ONLY be performed in kernel mode.
-		Next, user programs are given their own 'virtual' memory spaces which are
-		independent of physical device locations (these are known only to the kernel).
-		Since memory operations must go through the kernel, the kernel can easily check
+		User programs are given their own local 'virtual' memory spaces which are
+		independent of physical device locations.
+		When memory operations go through the CPU, the CPU can check
 		that addresses given are in fact within the local 'virtual' memory space assigned
-		to the program, if so the location can be converted to a physical address and memory
+		to the program (base and limit registers), 
+		if so the location can be converted to a physical address and memory
 		operations performed without ever telling the program the physical address. However,
 		if the address is not within the local memory space of the user program, an exception
 		can be generated and sent to the user program (segmentation fault) causing the
-		system call to fail, thus protecting memory used by other programs.
+		operation to fail, thus protecting memory used by other programs.
+		This is implemented via a physical trap on the CPU.
 	\end{addmargin}
 
 %% Problem 2.18
@@ -179,6 +179,22 @@ When will the program terminate?
 \textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
 
 	\begin{addmargin}[1em]{}
+		Lines (2) and (5) are both the obvious examples of system calls as the
+		pertain to file I/O (through the file descriptors stdin and stdout).
+		Line (3) is NOT a system call, sqrt is only a function defined by the C standard 
+		library, and is not actually a wrapper around any system call. \\ \bigbreak
+		Although z is a pointer, we don't actually malloc anything, it's only a reference
+		to w, so no system call is needed there, line 3 is taking the square root of w
+		and assigning it back to w via the reference. z, nothing all that interesting.
+		\\ \bigbreak
+		Line 7 is a syntax error, as you cannot multiply a pointer (z) with a value (y).
+		Therefore you will not actually be able to run this program, so it is thus impossible 
+		for it to terminate. If you included a typecast, to convert (z) to an integer (as
+		that is all an address is), it will not be particularly disastrous, you will just
+		end up with an arbitrary value stored in (w), dependant on whatever happens
+		to be the address of (w). Alternatively, you could also dereference z (to the value
+		of w), this would also be fine. \\ \bigbreak
+		The program will return 0 following either of these corrections.
 	\end{addmargin}
 
 \end{document}
