@@ -1,0 +1,17 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{char} \PYG{n}{a}\PYG{p}{;}
+\PYG{k+kt}{int} \PYG{n+nf}{main}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+	\PYG{n}{foo}\PYG{p}{();}
+	\PYG{c+c1}{// ...}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{int} \PYG{n+nf}{foo}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+	\PYG{k+kt}{char} \PYG{o}{*} \PYG{n}{b}\PYG{p}{,} \PYG{o}{*} \PYG{n}{c}\PYG{p}{;}
+	\PYG{k+kt}{char} \PYG{n}{d}\PYG{p}{;}
+
+	\PYG{n}{b} \PYG{o}{=} \PYG{p}{(}\PYG{k+kt}{char} \PYG{o}{*}\PYG{p}{)}\PYG{n}{malloc}\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{);}
+	\PYG{n}{c} \PYG{o}{=} \PYG{p}{(}\PYG{k+kt}{char} \PYG{o}{*}\PYG{p}{)}\PYG{o}{\PYGZam{}}\PYG{n}{a}\PYG{p}{;}
+	\PYG{n}{d} \PYG{o}{=} \PYG{l+m+mi}{10}\PYG{p}{;}
+	\PYG{k}{return} \PYG{n}{d}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}
