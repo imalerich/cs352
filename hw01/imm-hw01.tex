@@ -88,8 +88,8 @@ are the strengths and weaknesses of the two approaches.
 		\textbf{Message Passing Model:} With a message passing model, messages can be sent
 			in either a blocking or non-blocking way (synchronous or asynchronous). This
 			method is much easier to implement, but isn't very suitable for large 
-			amounts of data as message passing requires more overhead (as communication
-			is treated as a file, whether it be physical (FIFO) or not (pipe)) and thus
+			amounts of data as message passing requires more overhead (as message passing
+			is performed via system calls and must pass through the kernel) and thus
 			results in slower speeds.
 		\bigbreak
 		\textbf{Memory Sharing Model:} Memory is allocated which both processes have access
