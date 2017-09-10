@@ -15,20 +15,20 @@
 \textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
 
 	\begin{addmargin}[1em]{}
-		\textbf{short-term:} Selects a process which is in the \textbf{ready} state 
-			and allocates it to a CPU to actually begin execution (\textbf{running}). 
+		\textbf{short-term:} Selects a process which is in the \hl{ready} state 
+			and allocates it to a CPU to actually begin execution (\hl{running}). 
 			Thus, a short-term scheduler is the fastest form of CPU scheduler, 
 			as it must make the decision on which process to execute next.
 		\bigbreak
 		\textbf{medium-term:} Decides which processes to remove from memory.
 			Can suspend processes by moving them to secondary storage (e.g. 
 			hard drive) rather than taking up space on the system RAM.
-			For example if a process is \textbf{waiting} for a I/O to complete,
+			For example if a process is \hl{waiting} for a I/O to complete,
 			it may be moved to swap space by the medium-term scheduler to free
 			up system resources for other programs.
 		\bigbreak
 		\textbf{long-term:} Determines which programs are to actually be processed
-			by admitting processes (\textbf{new}$\rightarrow$\textbf{ready})
+			by admitting processes (\hl{new}$\rightarrow$\hl{ready})
 			from the queue and loading them into memory.
 	\end{addmargin}
 
@@ -39,7 +39,13 @@
 \textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
 
 	\begin{addmargin}[1em]{}
-		Answers look like this.
+		The system will receive a clock interrupt, letting it know that it is time
+		to perform a context switch, all registers (including the program counter, stack
+		pointer, etc) are saved to the Process Control Block. Once the state of the program 
+		has been saved, the OS calls the scheduler to determine the next process to be
+		executed. The OS then fetches the PCB of that process, and loads all registers
+		to restore the state that that process left off. The CPU can then continue
+		execution of this new process in user mode.
 	\end{addmargin}
 
 %% Problem 3.12
