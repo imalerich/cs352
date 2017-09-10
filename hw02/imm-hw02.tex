@@ -15,7 +15,21 @@
 \textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
 
 	\begin{addmargin}[1em]{}
-		Answers look like this.
+		\textbf{short-term:} Selects a process which is in the \textbf{ready} state 
+			and allocates it to a CPU to actually begin execution (\textbf{running}). 
+			Thus, a short-term scheduler is the fastest form of CPU scheduler, 
+			as it must make the decision on which process to execute next.
+		\bigbreak
+		\textbf{medium-term:} Decides which processes to remove from memory.
+			Can suspend processes by moving them to secondary storage (e.g. 
+			hard drive) rather than taking up space on the system RAM.
+			For example if a process is \textbf{waiting} for a I/O to complete,
+			it may be moved to swap space by the medium-term scheduler to free
+			up system resources for other programs.
+		\bigbreak
+		\textbf{long-term:} Determines which programs are to actually be processed
+			by admitting processes (\textbf{new}$\rightarrow$\textbf{ready})
+			from the queue and loading them into memory.
 	\end{addmargin}
 
 %% Problem 3.9
