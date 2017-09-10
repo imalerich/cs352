@@ -1,0 +1,30 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}sys/types.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}unistd.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}wait.h\PYGZgt{}}
+
+\PYG{k+kt}{int} \PYG{n+nf}{main}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+	\PYG{k+kt}{pid\PYGZus{}t} \PYG{n}{pid}\PYG{p}{,} \PYG{n}{pid1}\PYG{p}{;}
+	\PYG{n}{pid} \PYG{o}{=} \PYG{n}{fork}\PYG{p}{();} \PYG{c+c1}{// fork a child process}
+
+	\PYG{k}{if} \PYG{p}{(}\PYG{n}{pid} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+		\PYG{n}{fprintf}\PYG{p}{(}\PYG{n}{stderr}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}Fork Failed!}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{);}
+		\PYG{k}{return} \PYG{l+m+mi}{1}\PYG{p}{;}
+
+	\PYG{p}{\PYGZcb{}} \PYG{k}{else} \PYG{k}{if} \PYG{p}{(}\PYG{n}{pid} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+		\PYG{c+c1}{// child process}
+		\PYG{n}{pid1} \PYG{o}{=} \PYG{n}{getpid}\PYG{p}{();}
+		\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}child: pid}\PYG{l+s+se}{\PYGZbs{}t}\PYG{l+s}{= \PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{pid}\PYG{p}{);} \PYG{c+cm}{/* A */}
+		\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}child: pid1}\PYG{l+s+se}{\PYGZbs{}t}\PYG{l+s}{= \PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{pid1}\PYG{p}{);} \PYG{c+cm}{/* B */}
+	\PYG{p}{\PYGZcb{}} \PYG{k}{else} \PYG{p}{\PYGZob{}}
+		\PYG{c+c1}{// parent process}
+		\PYG{n}{pid1} \PYG{o}{=} \PYG{n}{getpid}\PYG{p}{();}
+		\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}parent: pid}\PYG{l+s+se}{\PYGZbs{}t}\PYG{l+s}{= \PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{pid}\PYG{p}{);} \PYG{c+cm}{/* C */}
+		\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}parent: pid1}\PYG{l+s+se}{\PYGZbs{}t}\PYG{l+s}{= \PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{pid1}\PYG{p}{);} \PYG{c+cm}{/* D */}
+		\PYG{n}{wait}\PYG{p}{(}\PYG{n+nb}{NULL}\PYG{p}{);}
+	\PYG{p}{\PYGZcb{}}
+
+	\PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

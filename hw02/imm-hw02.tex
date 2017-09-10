@@ -1,0 +1,98 @@
+\documentclass[12pt]{jhwhw}
+\author{Ian Malerich}
+\title{Com S 352: Homework 1}
+\usepackage{amssymb, amsfonts, mathtools, graphicx, breqn}
+\usepackage{minted, subfig, float, scrextend, setspace, soul}
+\usemintedstyle{friendly}
+
+\onehalfspacing
+\begin{document}
+\raggedright
+
+%% Problem 3.8
+\textbf{3.8 (15 points)} Describe the difference between short-term, medium-term, and 
+	long-term scheduling.
+\textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
+
+	\begin{addmargin}[1em]{}
+		Answers look like this.
+	\end{addmargin}
+
+%% Problem 3.9
+\bigbreak
+\textbf{3.9 (10 points)} Describe the actions taken by a kernel to context-switch
+	between processes.
+\textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
+
+	\begin{addmargin}[1em]{}
+		Answers look like this.
+	\end{addmargin}
+
+%% Problem 3.12
+\bigbreak
+\textbf{3.12 (25 points)} Including the initial process, how many processes are created by 
+	the program shown below.
+\inputminted{c}{3.12.c}
+\textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
+
+	\begin{addmargin}[1em]{}
+		\hl{16 processes are created by the program.}
+		\bigbreak
+		To see this, note that the parent creates 4 child processes (one at each
+		index of the for loop). Thus, we so far have \hl{5 processes total}, 
+		including the parent. \\
+		Consider the process created at index 0, when this process starts, it will run
+		the remaining 3 iterations of the for loop, and create 3 child processes of its
+		own. The first of those will create 2 (one of which will create another 1), the second
+		will create 1 child process, and the last will terminate the loop when it is created
+		and not make another child. Thus the child at index 0 has \hl{7 children/grandchildren.} \\
+		The second child (index 1) process will create 2 child process for each iteration, one of
+		which will create 1 more and the last will again terminate the loop, 
+		for a \hl{total of 3.} \\
+		The third child (index 2) will create 1 child process, with no children, 
+		for a total of \hl{1 children/grandchildren.} \\
+		The fourth and final child (index 3) immediately terminates the lop, 
+		for a \hl{total of 0 children/grandchildren}.
+		\\
+		Thus, 5 + 7 + 3 + 1 + 0 = 16 processes in total.
+	\end{addmargin}
+
+%% Problem 3.14
+\bigbreak
+\textbf{3.14 (25 points)} Using the program below, identify the values of pid at
+	lines A, B, C, and D (Assume that the actual pids of the parent and child
+	are 2600 and 2603, respectively).
+\inputminted{c}{3.14.c}
+\textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
+
+	\begin{addmargin}[1em]{}
+		\textbf{A:} 0 &(pid = fork() returns 0 to child process) \\
+		\textbf{B:} 2603 &(pid1 = getpid() returns id of current process, i.e. the child) \\
+		\textbf{C:} 2603 &(pid = fork() returns child pid to the parent) \\
+		\textbf{D:} 2600 &(pid1 = getpid() returns id of current process, i.e. the parent)\\
+	\end{addmargin}
+
+%% Problem 3.17
+\bigbreak
+\textbf{3.17 (25 points)} Using the program shown below, explain what the output will be
+	at lines X and Y.
+\inputminted{c}{3.17.c}
+\textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
+
+	\begin{addmargin}[1em]{}
+		\textbf{LINE X:} The child process multiplies each value of the array by the opposite
+		of the values index. Thus the child will print out the results of
+		\{0*-0, 1*-1, 2*-2, 3*-3, 4*-4\}. Which will be the values
+		\{0, -1, -4, -9, -16\}.
+		\bigbreak
+		\hl{CHILD: 0 CHILD: -1 CHILD: -4 CHILD: -9 CHILD: -16}
+
+		\textbf{LINE Y:} The child modifies the values of the array in it's own memory space
+		(even though it is global, child process still have their own global memory space),
+		not the parents, thus the parent will print out the results the array was
+		initialized to when 'nums' was declared. That is, \{0, 1, 2, 3, 4\}.
+		\bigbreak
+		\hl{PARENT: 0 PARENT: 1 PARENT: 2 PARENT: 3 PARENT: 4}
+	\end{addmargin}
+
+\end{document}
