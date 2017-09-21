@@ -1,0 +1,140 @@
+\documentclass[12pt]{jhwhw}
+\author{Ian Malerich}
+\title{Com S 352: Homework 3}
+\usepackage{amssymb, amsfonts, mathtools, graphicx, breqn}
+\usepackage{minted, subfig, float, scrextend, setspace, soul}
+\usemintedstyle{friendly}
+
+\onehalfspacing
+\begin{document}
+\raggedright
+
+%% Problem 4.8
+\textbf{4.8 (8 points)}  Which of the following components of program state are 
+	shared across threads in a multithreaded process.
+	\begin{enumerate}
+		\item Register Values
+		\item Heap Memory
+		\item Global Variables
+		\item Stack Memory
+	\end{enumerate}
+\textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
+
+	\begin{addmargin}[1em]{}
+	\end{addmargin}
+
+%% Problem 4.11
+\textbf{4.11 (5 points)} Is it possible to have concurrency but not parallelism?
+	Explain.
+\textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
+
+	\begin{addmargin}[1em]{}
+		Yes. Parallelism requires multiple CPU's, so that multiple processes/threads
+		are being run simultaneously in real time. Concurrency only requires that more
+		than one process/thread is in the process of being computed at a time, thus,
+		multiple process/thread may share a single CPU (not parallel) and alternate
+		turns executing code by following some scheduling algorithm.
+	\end{addmargin}
+	\bigbreak
+
+%% Problem 4.17
+\textbf{4.17 (10 points)} The program shown below uses the pthreads API. 
+	What would be the output from the program at LINE C and LINE P?
+\inputminted{c}{4.17.c}
+\textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
+
+	\begin{addmargin}[1em]{}
+		C = 5 \\
+		P = 0 \\
+	\end{addmargin}
+
+%% Problem 6.14
+\textbf{6.14 (15 points)} Consider the exponential average formula used to
+	predict the length of the next CPU burst. What are the implications of assigning
+	the values to the parameters used by the algorithm?
+	\begin{enumerate}
+		\item $\alpha=0$ and $\tau_0=100$ ms
+		\item $\alpha=0.99$ and $\tau_ 0=10$ ms
+	\end{enumerate}
+\textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
+
+	\begin{addmargin}[1em]{}
+	\end{addmargin}
+
+%% Problem 6.16
+\textbf{6.16 (30 points)} 
+	Consider the following set of processes, with the length of the CPU
+	burst given in milliseconds:
+	Process Burst Time Priority \\
+	P1 2 2 \\
+	P2 1 1 \\
+	P3 8 4 \\
+	P4 4 2 \\
+	P5 5 3 \\
+	The processes are assumed to have arrived in the order P1, P2, P3, P4, P5, all at 
+	time 0.
+	\begin{enumerate}
+		\item Draw foru Gantt charts that illustrate the execution of these processes using the
+			following scheduling algorithms: FCFS, SJF, non-preemptive priority (a larger
+			priority number implies a higher priority), and RR (quantum = 2).
+		\item What is the turnaround time of each process for each of the scheduling algorithms
+			in part a?
+		\item What is the waiting time of each process for each of these scheduling algorithms.
+		\item Which of the algorithms results in the minimum average waiting time
+			(over all processes)?
+	\end{enumerate}
+\textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
+
+	\begin{addmargin}[1em]{}
+	\end{addmargin}
+
+%% Problem 6.19
+\textbf{6.19 (5 points)} 
+	Which of the following scheduling algorithms could result in starvation?
+	\begin{enumerate}
+		\item First-Come, First-Served
+		\item Shortest job first
+		\item Round robin
+		\item Priority
+	\end{enumerate}
+\textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
+
+	\begin{addmargin}[1em]{}
+	\end{addmargin}
+
+%% Problem 6.23
+\textbf{6.23 (7 points)} 
+	Consider a preemptive priority scheduling algorithm based on dynamically
+	changing priorities. Larger priority numbers imply higher priority.
+	When a process is waiting for the CPU (in the ready queue, but not
+	running), its priority change at a rate $\alpha$. When it is running, its
+	priority changes at a rate $\beta$. All processes are given a priority of 0 when they
+	enter the ready queue. The parameters $\alpha$ and $\beta$ can be set to give 
+	many different scheduling algorithms.
+	\begin{enumerate}
+		\item What is the algorithm that results from $\beta > \alpha > 0$?
+		\item What is the algorithm that results from $\alpha < \beta < 0$?
+	\end{enumerate}
+\textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
+
+	\begin{addmargin}[1em]{}
+	\end{addmargin}
+
+%% Problem 7
+\textbf{7 (20 points)} Convert the following program to use threads.
+	Under the following restrictions:
+	\begin{enumerate}
+		\item One thread will print ``hello", one thread will print ``world", and the
+			main function will print the trailing $``\backslash n"$, using just
+			pthread_create(), pthread_exit(), pthread_yield(), and
+			pthread_join().
+		\item You must use a synchronization method to ensure the "world" thread
+			runs after the "hello" thread.
+		\item You must use a synchronization method to ensure that the main
+			thread does not execute until after the "world" thread.
+	\end{enumerate}
+
+\textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
+\inputminted{c}{7.c}
+
+\end{document}
