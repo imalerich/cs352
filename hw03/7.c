@@ -14,6 +14,14 @@ void * hello(void * param);
 
 int main(int argc, char ** argv)  {
 	// create the two threads
+	// here, I will create pt_hello first so it's handle
+	// is available for pthread_join in the world thread
+	// if you wanted to create world first, a pthread_yield
+	// could be used to halt the world thread until the 
+	// main thread creates the hello thread, however 
+	// I found this solution to be a bit more elegant
+	// and less bug prone if you were for example to introduce
+	// additional threads to further complicate things
 	pthread_create(&pt_hello, NULL, hello, NULL);
 	pthread_create(&pt_world, NULL, world, NULL);
 

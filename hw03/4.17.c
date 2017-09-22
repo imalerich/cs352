@@ -6,7 +6,6 @@
 #include <sys/wait.h>
 
 int value = 0;
-
 void * runner(void * param); /* the thread */
 
 int main(int argc, char ** argv) {
