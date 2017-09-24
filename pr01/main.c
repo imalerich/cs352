@@ -8,35 +8,24 @@
 
 #include "args.h"
 #include "history.h"
+#include "line.h"
 
 #define MAX_LINE 80 /* The maximum command length. */
 #define HISTORY_LENGTH 10
 
 /**
- * Executes the line and overlays the current process.
- * If this function returns, an error has occured.
+ * Executes all commands in the given line.
+ * Commands are executed in the order in which they appear.
+ * Each command may include a '&' character to be run in the background
+ * that is, the creating process will not wait for the new process to terminate.
  */
 void exec_line(char * line, History * h);
 
 /**
- * Returns the command given by line. In most cases,
- * this will just be line. If line is a history command
- * such as '!!' or '!N', then this will return
- * to the corresponding command in history, if no such
- * command exists, NULL is returned instead.
- * Further, if this does NOT return line, then line will
- * be freed from memory.
+ * Executes the line and overlays the current process.
+ * If this function returns, an error has occured.
  */
-char * get_command(char * line, History * h);
-
-/**
- * Makes a new copy of the input strig in memory.
- * Since the history object is freeing commands
- * as they leave memory, whenever I reference an old
- * commannd, I need to make a copy of the string before
- * adding it to my history object.
- */
-char * copy_str(char * string);
+void exec_command(char * command, History * h);
 
 int main(int argc, char ** argv) {
 	char * args[MAX_LINE/2 + 1]; /* Command Line Arguments. */
@@ -52,62 +41,45 @@ int main(int argc, char ** argv) {
 		char * line = NULL;
 		size_t len = 0;
 		getline(&line, &len, stdin);
-		line = get_command(line, h);
+		line = proc_line(line, h);
 
-		// run the command
-		
-		pid_t child = fork();
-		if (child < 0) { // fork failed
-			fprintf(stderr, "ERROR - Fork Failed - Exiting\n");
-			exit(-1);
-		} else if (child == 0) { // child process
-			exec_line(line, h);
-			fprintf(stderr, "ERROR - Exec Failed - Exiting Child Process\n");
-			exit(-1);
-		} else { // parent process
-			// if the user included an '&', 
-			// don't wait for the child process to finish
-			if (!run_in_background(line)) { wait(NULL); }
-		}
-
+		// run the command && and it to the history
+		exec_line(line, h);
 		h = history_add_or_create(h, line, HISTORY_LENGTH);
 	}
 
 	return 0;
 }
 
-char * get_command(char * line, History * h) {
-	// skip leading white space when parsing line
-	// do NOT modify line as we need to call free on the initial pointer
-	char * tmp = line;
-	for (; isspace(tmp[0]) && tmp[0] != '\0'; tmp++) { }
+void exec_line(char * line, History * h) {
+	// base case, no command to execute
+	if (line == NULL) { return; }
 
-	// will at least have a new line at the end, so long
-	// as there is some space after "!!", consider it
-	// the "!!" command
-	if (tmp[0] == '!' && tmp[1] == '!' && isspace(tmp[2])) {
-		free(line); // this will overwrite 'line'
+	pid_t child = fork();
+	if (child < 0) { // fork failed
+		fprintf(stderr, "ERROR - Fork Failed - Exiting\n");
+		exit(-1);
+	} else if (child == 0) { // child process
+		exec_command(line, h);
+		fprintf(stderr, "ERROR - Exec Failed - Exiting Child Process\n");
+		exit(-1);
+	} else { // parent process
+		// if the user included an '&', 
+		// don't wait for the child process to finish
+		if (!run_in_background(line)) { wait(NULL); }
 
-		if (h == NULL) { return NULL; }
-		else return copy_str(h->command);
-	} else if (tmp[0] == '!') {
-		// first character is '!', check if we 
-		// can read a number following it
-		int cid = atoi(tmp+1); // args+1 points to the remainder of the string
-		free(line); // this will overwrite 'line'
-		return copy_str(history_get_command(cid, h));
+		// first command done, go ahead and recurse to the next command
+		exec_line(next_command(line), h);
 	}
-
-	return line;
 }
 
-void exec_line(char * line, History * h) {
-	if (line == NULL) {
+void exec_command(char * command, History * h) {
+	if (command == NULL) {
 		fprintf(stderr, "Error - No Command Found!\n");
 		exit(-1);
 	}
 
-	char * args = split_line(line);
+	char * args = split_line(command);
 	char ** arr = get_arg_array(args);
 
 	// args has had whitespace removed, so use that rather than line
@@ -117,11 +89,4 @@ void exec_line(char * line, History * h) {
 	}
 
 	execvp(arr[0], arr);
-}
-
-char * copy_str(char * string) {
-	if (string == NULL) { return NULL; }
-	char * copy = malloc(sizeof(char) * (strlen(string) + 1));
-	strcpy(copy, string);
-	return copy;
 }

@@ -11,7 +11,7 @@
  * Note that this does not allocate a new string, only returns
  * a pointer into 'line'.
  */
-char * next_line(char * line);
+char * next_command(char * line);
 
 /**
  * Allocates a new string of length(line)+1-LW.

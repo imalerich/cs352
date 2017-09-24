@@ -59,10 +59,10 @@ History * history_pop(History * head) {
 
 void history_print(History * h) {
 	if (h == NULL) { printf("No History...\n"); }
-	printf("%d %s", h->cid, h->command);
+	printf("%d %s\n", h->cid, h->command);
 
 	for (History * next = h->next; next != h; next = next->next) {
-		printf("%d %s", next->cid, next->command);
+		printf("%d %s\n", next->cid, next->command);
 	}
 }
 

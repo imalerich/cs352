@@ -4,8 +4,8 @@
 #include <stdio.h>
 #include "args.h"
 
-char * next_line(char * line) {
-	for (char * c = line; *c = '\0'; c++) {
+char * next_command(char * line) {
+	for (char * c = line; *c != '\0'; c++) {
 		// found the end of a command, if there is more text
 		// following this command, return a pointer to it
 		if (*c == ';' && *(c+1) != '\0') { return (c+1); }
