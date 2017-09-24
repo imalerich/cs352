@@ -1,5 +1,17 @@
 #include "history.h"
 
+History * history_add_or_create(History * h, char * command, int MAX_HIST) {
+	if (h == NULL) {
+		h = history_alloc(command);
+	} else {
+		h = history_push(h, command);
+		// trim the history so it only has length HISTORY_LENGTH
+		if (h->cid > MAX_HIST) { history_pop(h); }
+	}
+
+	return h;
+}
+
 void history_remove(History * h) {
 	// relink the previous and the next nodes
 	h->prev->next = h->next;
@@ -55,6 +67,7 @@ void history_print(History * h) {
 }
 
 char * history_get_command(int cid, History * h) {
+	if (h == NULL) { return NULL; }
 	if (h->cid == cid) { return h->command; }
 	for (History * next = h->next; next != h; next = next->next) {
 		if (next->cid == cid) { return next->command; }

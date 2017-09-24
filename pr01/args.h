@@ -4,9 +4,21 @@
 #include <stdbool.h>
 
 /**
+ * Given a line containing a command, returns a pointer to the
+ * next command stored in the line.
+ * If there are no more commands, returns NULL.
+ * Commands are separated by ';'.
+ * Note that this does not allocate a new string, only returns
+ * a pointer into 'line'.
+ */
+char * next_line(char * line);
+
+/**
  * Allocates a new string of length(line)+1-LW.
  * Where LW is the number of leading whitespace characters,
  * these will be ommitted from the generated string.
+ * Further, length(line) is the length of line up to the first
+ * occurence of the ';' character, which terminates the command.
  * Replaces white space characters in line with NULL
  * terminators for each argument. An extra NULL terminator
  * is then added so the return value may be used as an
@@ -27,8 +39,7 @@ char ** get_arg_array(char * args);
 
 /**
  * Should the input line be run in the background?
- * \return True if line ends with '&' indicating
- * 	the caller wants the command run alongside the main process.
+ * \return True if a '&' is found before a ';' or the end of the string.
  */
 bool run_in_background(char * line);
 

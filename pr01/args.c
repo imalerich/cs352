@@ -4,6 +4,16 @@
 #include <stdio.h>
 #include "args.h"
 
+char * next_line(char * line) {
+	for (char * c = line; *c = '\0'; c++) {
+		// found the end of a command, if there is more text
+		// following this command, return a pointer to it
+		if (*c == ';' && *(c+1) != '\0') { return (c+1); }
+	}
+
+	return NULL;
+}
+
 char * split_line(char * line) {
 	// ignore leading white space characters
 	unsigned leading_white = 0;
@@ -11,7 +21,9 @@ char * split_line(char * line) {
 		++leading_white;
 	}
 
-	const unsigned length = strlen(line);
+	unsigned length  = 0;
+	for (char * c = line; *c != '\0' && *c != ';'; c++) { length++; }
+
 	char * ret = malloc(sizeof(char) * (length + 1 - leading_white));
 
 	for (int i=0; i<length; i++) {
@@ -38,11 +50,11 @@ char ** get_arg_array(char * args) {
 }
 
 bool run_in_background(char * line) {
-	const unsigned length = strlen(line);
-	for (int i=length-1; i>=0; i++) {
-		if (isspace(line[i])) { continue; }
-		else if (line[i] == '&') return true;
-		break;
+	if (line == NULL) { return false; }
+
+	for (char * c = line; *c != '\0'; c++) {
+		if (*c == '&') { return true; }
+		if (*c == ';') { return false; }
 	}
 
 	return false;

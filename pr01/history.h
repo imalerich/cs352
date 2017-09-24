@@ -20,6 +20,13 @@ struct _History {
 typedef struct _History History;
 
 /**
+ * If h = NULL, creates a new history list and returns it, containing only command.
+ * Otherwise, pushes command to the front of the history stack. If this causes
+ * history to be larger than MAX_HIST, then the tail of the stack is popped.
+ */
+History * history_add_or_create(History * h, char * command, int MAX_HIST);
+
+/**
  * Allocates a new history list, containing only the given command.
  */
 History * history_alloc(char * command);
