@@ -85,5 +85,5 @@ void print_args(char * line) {
 		printf("%s\n", arg);
 	}
 
-	free(args);
+	if (args) { free(args); args = NULL; }
 }
