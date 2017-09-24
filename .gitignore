@@ -7,4 +7,5 @@
 *.synctex.gz
 *.o
 osh
+obj
 _minted*

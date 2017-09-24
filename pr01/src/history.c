@@ -1,4 +1,4 @@
-#include "history.h"
+#include "../include/history.h"
 
 History * history_add_or_create(History * h, char * command, int MAX_HIST) {
 	if (command == NULL) { return h; }

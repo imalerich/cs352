@@ -1,5 +1,5 @@
-#include "line.h"
-#include "args.h"
+#include "../include/line.h"
+#include "../include/args.h"
 
 char * proc_line(char * line,  History * h) {
 	if (line == NULL) {  return NULL; }

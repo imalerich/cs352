@@ -2,7 +2,8 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "args.h"
+
+#include "../include/args.h"
 
 char * next_command(char * line) {
 	for (char * c = line; *c != '\0'; c++) {
