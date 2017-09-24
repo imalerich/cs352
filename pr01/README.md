@@ -1,6 +1,4 @@
-# Ian Malerich
-# CS352
-# Project 01
+# Ian Malerich - CS352 - Project 01
 
 Can be built via executing make in the root directory.
 Includes full documentation generated via doxygen in the ./docs/ directory.
