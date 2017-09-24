@@ -35,6 +35,7 @@ char * get_command(char * line, History * h) {
 		// first character is '!', check if we 
 		// can read a number following it
 		int cid = atoi(args+1); // args+1 points to the remainder of the string
+		// TODO - Verify that the remainder of the string is in fact a number.
 
 		ret = copy_str(history_get_command(cid, h));
 	}
