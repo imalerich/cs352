@@ -5,6 +5,8 @@ void exec_line(char * line, History * h) {
 	// base case, no command to execute
 	if (line == NULL) { return; }
 
+	// TODO - Setup pipes when commands are separated by a '|'
+
 	pid_t child = fork();
 	if (child < 0) { // fork failed
 		fprintf(stderr, "ERROR - Fork Failed - Exiting\n");
