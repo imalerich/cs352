@@ -29,6 +29,15 @@ void exec_line(char * line, History * h);
  */
 char * get_command(char * line, History * h);
 
+/**
+ * Makes a new copy of the input strig in memory.
+ * Since the history object is freeing commands
+ * as they leave memory, whenever I reference an old
+ * commannd, I need to make a copy of the string before
+ * adding it to my history object.
+ */
+char * copy_str(char * string);
+
 int main(int argc, char ** argv) {
 	char * args[MAX_LINE/2 + 1]; /* Command Line Arguments. */
 	int should_run = 1; /* Flag to determine when to exit program. */
@@ -80,13 +89,13 @@ char * get_command(char * line, History * h) {
 		free(line); // this will overwrite 'line'
 
 		if (h == NULL) { return NULL; }
-		else return h->command;
+		else return copy_str(h->command);
 	} else if (tmp[0] == '!') {
 		// first character is '!', check if we 
 		// can read a number following it
 		int cid = atoi(tmp+1); // args+1 points to the remainder of the string
 		free(line); // this will overwrite 'line'
-		return history_get_command(cid, h);
+		return copy_str(history_get_command(cid, h));
 	}
 
 	return line;
@@ -108,4 +117,11 @@ void exec_line(char * line, History * h) {
 	}
 
 	execvp(arr[0], arr);
+}
+
+char * copy_str(char * string) {
+	if (string == NULL) { return NULL; }
+	char * copy = malloc(sizeof(char) * (strlen(string) + 1));
+	strcpy(copy, string);
+	return copy;
 }
