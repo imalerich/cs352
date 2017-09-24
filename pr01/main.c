@@ -86,7 +86,7 @@ void exec_line(char * line, History * h) {
 		int cid = atoi(args+1); // args+1 points to the remainder of the string
 		char * cmd = history_get_command(cid, h);
 		if (!cmd) {
-			fprintf(stderr, "No Such Command in History!\n");
+			fprintf(stderr, "No Such Command for CID: %d! (Maybe it has been removed?)\n", cid);
 			exit(-2);
 		}
 
