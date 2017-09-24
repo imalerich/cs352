@@ -11,7 +11,7 @@ Includes full documentation generated via doxygen in the ./docs/ directory.
 	Provides utilities for executing commands in a line.
 
 ## line.c
-	Parses utilities for parsing the history out of a line, proc_line is 
+	Parser utilities for replacing history with literal commands, proc_line is 
 	the powerhouse function of this class. Thanks to this method,
 	history is stored as literal execution, without references, this even
 	includes when trying to run multiple commands.
