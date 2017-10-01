@@ -84,7 +84,7 @@
 		If a process does not wish to give up the its processor via interrupts, it
 		can only guarantee mutual exclusion for processes which would run on the
 		same processor. Since we are assuming a multiprocessor system, it is possible
-		that processes could modify the data which we are trying to guarantee mutual
+		that another process could modify the data which we are trying to guarantee mutual
 		exclusion on, by simply running on another of the systems processors.
 		Thus this solution is insufficient.
 	\end{addmargin}
@@ -99,7 +99,7 @@
 \textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
 
 	\begin{addmargin}[1em]{}
-		We would need to introduce a queue where processes  can sleep (not execute)
+		We would need to introduce a queue where processes can sleep (not execute)
 		while they are waiting for a locked mutex. They will enter this queue
 		on a call to acquire for a mutex which is unavailable, and will be released
 		from this queue, when the process who currently holds the lock calls release.
@@ -124,7 +124,7 @@
 	\begin{addmargin}[1em]{}
 		If a signal is performed on a monitor with no waiting queue, the signal is
 		simply ignored. If a wait is then performed, the calling thread will simply
-		be blocked. With a semaphore, the signal call will not be ignored as it will
+		be blocked. With a semaphore, the signal call will never be ignored as it will
 		always at least increment the semaphore value. A future wait call will, instead
 		of blocking, immediately succeed due to this incremented value.
 	\end{addmargin}
@@ -144,10 +144,10 @@
 		is also available from elsewhere. Note, there is the possibility of a blocking
 		process, if $pnum > n$ then even if no processes are accessing the file, this process
 		will never leave the queue as there is not enough room to access the file.
-		Further, a call to wait signal does not guarantee a process will access the file,
-		even if the queue is non empty, even if there is a process in the queue with a small
+		Further, a call to signal with a non-empty queue does not guarantee a 
+		process will access the file, even if there is a process in the queue with a small
 		enough pnum to read the file, the queue will continue to wait until the head has
-		enough room.
+		enough room (this is why a while loop is used instead of an if statement).
 		\inputminted{c}{5.32.c}
 	\end{addmargin}
 	\bigbreak
