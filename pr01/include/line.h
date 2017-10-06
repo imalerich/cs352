@@ -5,9 +5,20 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <unistd.h>
 
 #include "history.h"
+
+/**
+ * Commands are stored compact in the history.
+ * For example "ls;pwd" but my algorithm needs spaces
+ * to deterimen the ends of strings, this will insert
+ * spaces after the end of each command "ls ;pwd ". 
+ * This creates a new strig, and does not deallocate the 
+ * calling string.
+ */
+char * insert_spaces(char * line);
 
 /**
  * Uses 'get_command' to process the given line and create a new
@@ -20,13 +31,32 @@
 char * proc_line(char * line,  History * h);
 
 /**
- * Returns the command given by line. In most cases,
- * this will just be line. If line is a history command
- * such as '!!' or '!N', then this will return
- * to the corresponding command in history, if no such
- * command exists, NULL is returned instead.
+ * TRUE if the input character is a digit (0-9), FALSE otherwise.
  */
-char * get_command(char * line, History * h);
+bool is_digit(char c);
+
+/**
+ * Converts the input character into an integer digit.
+ * Assumes is_digit(c) == TRUE.
+ */
+int get_digit(char c);
+
+/**
+ * Utility call for proc_line.
+ * Copies the input 'add' string to the reference 'str'
+ * starting at the location 'add'. This will reallocate str as 
+ * necessary, the new buffer size of str will be modified as input.
+ * Once done, returns the updated idx, where the caller can continue 
+ * writing to 'str'.
+ */
+int add_to_string(char ** str, char * add, int idx, size_t * buffer_size);
+
+/**
+ * Outputs the given error to the console.
+ * If line != NULL, line will  be  freed from memory.
+ * Always returns NULL;
+ */
+void * parse_error(const char * err, char * line);
 
 /**
  * Makes a new copy of the input strig in memory.

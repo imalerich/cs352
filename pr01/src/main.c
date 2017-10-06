@@ -25,12 +25,11 @@ int main(int argc, char ** argv) {
 		getline(&line, &len, stdin);
 		line = proc_line(line, h);
 
-		// TODO - Sometimes when you run a command
-		// such as pwd;ls when processing it you 
-		// get pwd;ls;ls
-
 		// run the command and it to the history
-		exec_line(line, h);
+		char * run = insert_spaces(line);
+		exec_line(run, h);
+		free(run);
+
 		h = history_add_or_create(h, line, HISTORY_LENGTH);
 	}
 
