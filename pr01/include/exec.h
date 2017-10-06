@@ -17,7 +17,7 @@
  * Each command may include a '&' character to be run in the background
  * that is, the creating process will not wait for the new process to terminate.
  */
-void exec_line(char * line, History * h);
+void exec_line(char * line, History * h, int _fd[2], pid_t prev);
 
 /**
  * Executes the line and overlays the current process.

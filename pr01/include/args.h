@@ -44,6 +44,12 @@ char ** get_arg_array(char * args);
 bool run_in_background(char * line);
 
 /**
+ * Should the input line pipe to the next command?
+ * \return True if the command is delimited by a |, False otherwise.
+ */
+bool pipe_to_next(char * line);
+
+/**
  * Given arguments which were passed by split_line,
  * returns how many arguments were found in the line.
  * \param Arguments as parsed by split_line.

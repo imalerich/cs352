@@ -6,7 +6,7 @@ char * insert_spaces(char * line) {
 	// first we need to know how many commands are in line
 	size_t num_commands = 1; // each has at least one command
 	for (char * tmp = line; *tmp != '\0'; tmp++) {
-		if (*tmp == ';') num_commands++; // found an additional command
+		if (*tmp == ';' || *tmp == '|') num_commands++; // found an additional command
 	}
 
 	size_t buffer_size = strlen(line) + 1 + num_commands;
@@ -14,9 +14,9 @@ char * insert_spaces(char * line) {
 	size_t idx = 0;
 
 	for (char * tmp=line; *tmp != '\0'; tmp++) {
-		if (*tmp == ';') {
+		if (*tmp == ';' || *tmp == '|') {
 			ret[idx++] = ' ';
-			ret[idx++] = ';';
+			ret[idx++] = *tmp;
 		} else {
 			ret[idx++] = *tmp;
 		}

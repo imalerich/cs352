@@ -27,7 +27,7 @@ int main(int argc, char ** argv) {
 
 		// run the command and it to the history
 		char * run = insert_spaces(line);
-		exec_line(run, h);
+		exec_line(run, h, NULL, 0);
 		free(run);
 
 		h = history_add_or_create(h, line, HISTORY_LENGTH);

@@ -9,7 +9,7 @@ char * next_command(char * line) {
 	for (char * c = line; *c != '\0'; c++) {
 		// found the end of a command, if there is more text
 		// following this command, return a pointer to it
-		if (*c == ';' && *(c+1) != '\0') { return (c+1); }
+		if ((*c == ';' || *c == '|') && *(c+1) != '\0') { return (c+1); }
 	}
 
 	return NULL;
@@ -22,8 +22,8 @@ char * split_line(char * line) {
 		++leading_white;
 	}
 
-	unsigned length  = 0;
-	for (char * c = line; *c != '\0' && *c != ';'; c++) { length++; }
+	unsigned length = 0;
+	for (char * c = line; *c != '\0' && *c != ';' && *c != '|'; c++) { length++; }
 
 	char * ret = malloc(sizeof(char) * (length + 1 - leading_white));
 
@@ -55,6 +55,17 @@ bool run_in_background(char * line) {
 
 	for (char * c = line; *c != '\0'; c++) {
 		if (*c == '&') { return true; }
+		if (*c == ';' || *c == '|') { return false; }
+	}
+
+	return false;
+}
+
+bool pipe_to_next(char * line) {
+	if (line == NULL) { return false; }
+
+	for (char * c = line; *c != '\0'; c++) {
+		if (*c == '|') { return true; }
 		if (*c == ';') { return false; }
 	}
 
