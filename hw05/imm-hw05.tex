@@ -1,0 +1,130 @@
+\documentclass[12pt]{jhwhw}
+\author{Ian Malerich}
+\title{Com S 352: Homework 5}
+\usepackage{amssymb, amsfonts, mathtools, graphicx, breqn}
+\usepackage{minted, subfig, float, scrextend, setspace, soul, amsthm, multirow}
+\usemintedstyle{friendly}
+
+\onehalfspacing
+\begin{document}
+\raggedright
+
+%% Problem 7.15
+\textbf{7.15}  
+	Compare the circular-wait scheme with the various deadlock-avoidance schemes 
+	(like the banker's algorithm with respect to the following issues:
+	\begin{enumerate}
+		\item Runtime overheads
+		\item System throughput
+	\end{enumerate}
+\textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
+
+	\begin{addmargin}[1em]{}
+	\end{addmargin}
+
+%% Problem 7.16
+\clearpage
+\textbf{7.16}  
+	In a real computer system, neither the resources available nor the demands of processes for resources are 
+	consistent over long periods (months). Resources break or are replaced, new processes come and go, and new 
+	resources are bought and added to the system. If deadlock is controlled by the banker's algorithm,
+	which of the following changes can be made safely (without introducing the possibility of deadlock),
+	and under what circumastances?
+	\begin{enumerate}
+		\item Increase \textbf{Available}. \\
+			This can pretty much always be made, if the system is in a safe state, then there
+			is sufficient resources for all processes introducing more resources does not change this.
+			The sequence of process which justifies the safe state of the system will continue
+			to justify the safe status with more available resources.
+			Note that by introducing more resources, there may be more possible ordering of the processes
+			which maintain a safe state.
+		\item Decrease \textbf{Available}. \\
+			This is much more risky, if resources are removed, the system will need to be reevaluated,
+			and it is possible that the system will enter a deadlock. For example, at an extreme, if 
+			at least one process needs resources, and you remove all resources, you have now introduced deadlock.
+			There are situations where decreasing available resources may be okay, for example
+			if you have a safe state which you add $n$ (of the same) resources too, and then remove $n$, you are back
+			where you started which was initial safe, thus you are still safe.
+		\item Increase \textbf{Max} for one process. \\
+			This could introduce deadlock. The trivial example is if you increase resources beyond what is available.
+			Another example might be if this process is the only process that could run first in the safe sequence,
+			but by increasing its maximum required resources, you could introduce a situation where it no longer
+			fits that role, no process can run first, thus no such sequence exists anymore, therefore
+			the system is no longer in a safe state and deadlock is possible.
+		\item Decrease \textbf{Max} for one process. \\
+			This will always be fine, if the system is in a safe state, having a process require less
+			of a particular resource is never a bad thing. By doing this, more possible orderings
+			of processes may maintain a safe state, in particular, the process which requires less 
+			maximum resources may be able to be executed earlier in the sequence than it was before
+			decreasing maximum resources.
+	\end{enumerate}
+
+%% Problem 7.18
+\clearpage
+\textbf{7.18}  
+	Consider a system consisting of $m$ resources of the same type being shared by $n$ processes. A
+	process can request or release only one resource at a time. Show that the system is deadlock free
+	if the following two conditions hold.
+	\begin{enumerate}
+		\item The maximum need of each process is between one resource and $m$ resources.
+		\item The sum of all maximum needs is less than $m+n$.
+	\end{enumerate}
+\textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
+
+	\begin{addmargin}[1em]{}
+	\end{addmargin}
+
+%% Problem 7.22
+\clearpage
+\textbf{7.22}  
+	Consider the following snapshot of a system: \bigbreak
+	\begin{tabular}{|l||c|c|c|c||c|c|c|c||c|c|c|c|}
+		\hline
+		& \multicolumn{4}{|c||}{Allocation} & \multicolumn{4}{|c||}{Max} & \multicolumn{4}{|c|}{Need} \\ \hline
+		& A & B & C & D & A & B & C & D & A & B & C & D\\ \hline
+		$P_0$ & 3 & 0 & 1 & 4 & 5 & 1 & 1 & 7 & 2 & 1 & 0 & 3 \\ \hline
+		$P_1$ & 2 & 2 & 1 & 0 & 3 & 2 & 1 & 1 & 1 & 0 & 0 & 1 \\ \hline
+		$P_2$ & 3 & 1 & 2 & 1 & 3 & 3 & 2 & 1 & 0 & 2 & 0 & 0 \\ \hline
+		$P_3$ & 0 & 5 & 1 & 0 & 4 & 6 & 1 & 2 & 4 & 1 & 0 & 2 \\ \hline
+		$P_4$ & 4 & 2 & 1 & 2 & 6 & 3 & 2 & 5 & 2 & 1 & 1 & 3 \\ \hline\hline
+		$Total$ & 12 & 10 & 6 & 7 & & & & & & & & \\ \hline
+	\end{tabular}
+
+	\bigbreak
+	Using the banker's algorithm, determine whether or not each of the following states is unsafe.
+	If the state is safe, illustrate the order in which the processes may complete. Otherwise, illustrate why 
+	the state is unsafe. \\
+	\begin{enumerate}
+		\item \textbf{Available} = (0,3,0,1) \\
+			Note that total memory = $(12+0, 10+3, 6+0, 7+1) = (12, 13, 6, 8)$ \\
+			$P_2 \rightarrow (3,4,2,2) \rightarrow P_4 \rightarrow (7, 6, 3, 4)
+			\rightarrow P_0 \rightarrow (10, 6, 4, 8) \rightarrow P_1 \rightarrow (12, 8, 5, 8)
+			\rightarrow P_3 (12, 13, 6, 8)
+			$. \\
+			Thus we can see from the above sequence that the system is in a safe state according
+			to the banker's algorithm.
+		\item \textbf{Available} = (1,0,0,2) \\
+			Note that total memory = $(12+1, 10+00, 6+0, 7+2) = (13, 10, 6, 9)$ \\
+			Initially, we can only run $P_1 \rightarrow (3, 2, 1, 2)$, next we must
+			run $P_2 \rightarrow (6, 3, 3, 3)$ then things start getting much easier,
+			as we have enough resources to run any process. $P_3 \rightarrow (6, 8, 4, 3)
+			\rightarrow P_4 \rightarrow (10, 10, 5, 5) \rightarrow P_0 \rightarrow (13, 10, 6, 9)$. \\
+			Thus again we see that following the above sequence we are able to run every process, and are
+			therefore in a safe state according to the banker's algorithm.
+	\end{enumerate}
+\bigbreak
+
+%% Problem 7.22
+\clearpage
+\textbf{7.22}  
+	What is the optimistic assumption made in the deadlock-detection algorithm?
+	How can this assumption be violated?
+\textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
+
+	\begin{addmargin}[1em]{}
+		The assumption is that once all tasks are in a safe state, that they will make no
+		further requests will be made. Doing so would violate the assumption and could lead 
+		to an unsafe state, and thus deadlock.
+	\end{addmargin}
+
+\end{document}
