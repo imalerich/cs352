@@ -10,12 +10,9 @@
 #define HISTORY_LENGTH 10
 
 int main(int argc, char ** argv) {
-	char * args[MAX_LINE/2 + 1]; /* Command Line Arguments. */
-	int should_run = 1; /* Flag to determine when to exit program. */
-
 	History * h = NULL; // doubly linked list containing history
 
-	while (should_run) {
+	while (1) { // I am using exit(0) to terminate the main process
 		printf("osh > ");
 		fflush(stdout);
 

@@ -27,14 +27,33 @@ char * split_line(char * line) {
 
 	char * ret = malloc(sizeof(char) * (length + 1 - leading_white));
 
+	// counts the number of paired characters discovered
+	// these are characters such as ",{},(),[],<>
+	// if paired_chars % 2 == 1, that means we are still inside some
+	// sort of text block, therefore we should allow for spaces
+	// an example might be awk "{print $1}" where we do not want to
+	// treat "{print and $1" as separate arguments
+	unsigned paired_chars = 0;
+
 	for (int i=0; i<length; i++) {
 		// process should be executed in the background
 		// do not include '&' when creating the arguments array
 		if (line[i] == '&') { break; }
 
-		// replace any whitespace character with a NULL terminator
+		if (line[i] == '"' || 
+				line[i] == '{' || line[i] == '}' || 
+				line[i] == '(' || line[i] == ')' || 
+				line[i] == '[' || line[i] == ']' ||
+				line[i] == '<' || line[i] == '>') {
+
+			++paired_chars;
+		}
+
+		// replace any whitespace character with a NULL terminator,
+		// only if we do not have an incomplete set of paired characters
 		// can leave any other values as is
-		ret[i] = isspace(line[i+leading_white]) ? '\0' : line[i+leading_white];
+		ret[i] = (isspace(line[i+leading_white]) && paired_chars % 2 == 0) 
+			? '\0' : line[i+leading_white];
 	}
 
 	ret[length - leading_white] = '\0';

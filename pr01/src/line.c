@@ -22,7 +22,7 @@ char * insert_spaces(char * line) {
 		}
 	}
 
-	ret[buffer_size-1] = ' ';
+	while (idx <= buffer_size) { ret[idx++] = ' '; }
 	ret[buffer_size] = '\0';
 
 	return ret;

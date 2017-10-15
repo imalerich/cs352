@@ -20,6 +20,16 @@
 void exec_line(char * line, History * h, int _fd[2], pid_t prev);
 
 /**
+ * Checks whether or not the first word in the given line is 'exit'.
+ * If so, returns true, otherwise returns false.
+ * Note that the line may have words after or whitespace before.
+ * and this function can still return true. However it is a strict
+ * requirment that it must be a word, 
+ * therefore 'exitcl' for example would return false.
+ */
+bool should_exit(char * line);
+
+/**
  * Executes the line and overlays the current process.
  * If this function returns, an error has occured.
  */

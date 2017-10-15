@@ -1,0 +1,3 @@
+*.o
+osh
+stress.sh

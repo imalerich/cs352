@@ -1,7 +1,9 @@
 # Ian Malerich - CS352 - Project 01
 
-Can be built via executing make in the root directory.
-Includes full documentation generated via doxygen in the ./docs/ directory.
+Can be built by executing make in the root directory.
+I have included an 'exit' command, which will terminate the shell.
+Includes full documentation generated via doxygen in the ./docs/ directory, can be
+viewed in your browser via 'index.html'.
 
 ## main.c
 	Includes the main function and the basic shell loop.
@@ -9,6 +11,7 @@ Includes full documentation generated via doxygen in the ./docs/ directory.
 
 ## exec.c
 	Provides utilities for executing commands in a line.
+	Supports multiple commands via ';' as well as piping via '|'.
 
 ## line.c
 	Parser utilities for replacing history with literal commands, proc_line is 
