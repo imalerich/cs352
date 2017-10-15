@@ -7,8 +7,13 @@
 #include <unistd.h>
 
 /**
- * Used a doubly linked list to describe 
- * the users history.
+ * @file history.h
+ * @author Ian Malerich
+ * @brief Store user command history.
+ */
+
+/**
+ * @brief Used a doubly linked list to describe the users history.
  */
 struct _History {
 	size_t cid; /**< Command ID of this item in the history. */
@@ -60,7 +65,7 @@ unsigned history_length(History * h);
 
 /**
  * Output the history list to the console.
- * \param h Pointer to history list (most recent is head).
+ * @param h Pointer to history list (most recent is head).
  */
 void history_print(History * h);
 

@@ -1,3 +1,4 @@
 *.o
 osh
 stress.sh
+doc

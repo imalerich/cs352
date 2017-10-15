@@ -1,9 +1,10 @@
 # Ian Malerich - CS352 - Project 01
 
 Can be built by executing make in the root directory.
-I have included an 'exit' command, which will terminate the shell.
-Includes full documentation generated via doxygen in the ./docs/ directory, can be
-viewed in your browser via 'index.html'.
+
+Full documentation is included, below I have included a brief synopsis
+of the role of each file. Full documentation is also available
+via a doxygen generated pdf 'docs.pdf'.
 
 ## main.c
 	Includes the main function and the basic shell loop.

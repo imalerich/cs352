@@ -12,7 +12,14 @@
 #include "../include/history.h"
 
 /**
- * Executes all commands in the given line.
+ * @file exec.h
+ * @author Ian Malerich
+ * @brief Execute processed commands, setup pipes.
+ */
+
+/**
+ * @brief Executes all commands in the given line.
+ *
  * Commands are executed in the order in which they appear.
  * Each command may include a '&' character to be run in the background
  * that is, the creating process will not wait for the new process to terminate.
@@ -20,7 +27,8 @@
 void exec_line(char * line, History * h, int _fd[2], pid_t prev);
 
 /**
- * Checks whether or not the first word in the given line is 'exit'.
+ * @brief Checks whether or not the first word in the given line is 'exit'.
+ *
  * If so, returns true, otherwise returns false.
  * Note that the line may have words after or whitespace before.
  * and this function can still return true. However it is a strict
@@ -30,7 +38,8 @@ void exec_line(char * line, History * h, int _fd[2], pid_t prev);
 bool should_exit(char * line);
 
 /**
- * Executes the line and overlays the current process.
+ * @brief Executes the line and overlays the current process.
+ *
  * If this function returns, an error has occured.
  */
 void exec_command(char * command, History * h);
