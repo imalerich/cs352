@@ -63,14 +63,15 @@ History * history_push(History * head, char * command) {
 
 History * history_pop(History * head) {
 	history_remove(head->prev);
+	return head;
 }
 
 void history_print(History * h) {
 	if (h == NULL) { printf("No History...\n"); }
-	printf(" %d %s\n", h->cid, h->command);
+	printf(" %zu %s\n", h->cid, h->command);
 
 	for (History * next = h->next; next != h; next = next->next) {
-		printf(" %d %s\n", next->cid, next->command);
+		printf(" %zu %s\n", next->cid, next->command);
 	}
 }
 
