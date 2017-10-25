@@ -12,7 +12,7 @@
 %% Problem 7.15
 \textbf{7.15}  
 	Compare the circular-wait scheme with the various deadlock-avoidance schemes 
-	(like the banker's algorithm with respect to the following issues:
+	(like the banker's algorithm) with respect to the following issues:
 	\begin{enumerate}
 		\item Runtime overheads
 		\item System throughput
@@ -20,6 +20,19 @@
 \textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
 
 	\begin{addmargin}[1em]{}
+		By using a deadlock-avoidance scheme there is obviously an increased runtime overhead
+		vs not using one (such as manually attempting to avoid deadlock, which has virtually no
+		runtime avoidance.) This is because deadlock-avoidance schemes will need keep track of 
+		allocated resources, maximum needed resources, total available resources etc, and must
+		run extra checks before allocating resources by checking whether or not it would introduce
+		a state that could induce deadlock. Again, these are all things a static method would not
+		need to do.
+		\bigbreak
+		However, at the cost of this extra runtime overhead, a deadlock-avoidance scheme will be
+		able to increase the systems throughput versus a static method. This is because a 
+		deadlock avoidance scheme will be able to more optimally and dynamically manage resources
+		for any given situation, thus maximizing resource usage allowing more processes to run
+		more efficiently.
 	\end{addmargin}
 
 %% Problem 7.16
@@ -72,6 +85,26 @@
 \textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
 
 	\begin{addmargin}[1em]{}
+		\begin{proof}
+
+			If a process requires more than $m$ resources ($\neg (a)$), then we can imagine a scenario
+			where that process holds all $m$ resources at once and creates deadlock as it waits for
+			the more (not available) required resources. In this sense, $\neg (a)$ will produce a 
+			deadlock situation, therefor $(a)$ must hold in a deadlock free environment.
+			\bigbreak
+			Now assume both $(b)$ and $(a)$ hold, and that a deadlock exists (contradiction).
+			We can further assume that all $m$ resources are allocated. As if they are not in
+			deadlock state, a process needs more than available resources, thus we can allocate
+			them to that process (but will of course still be in a deadlock state).
+			The sum of current needs + the currently allocated = the sum of maximum needs, which is 
+			less than $m + n $ by property $(a)$. Since we have assumed everything to be allocated,
+			that means that current needs + $m < m + n \Rightarrow$ current needs $< n$.
+			Thus we can conclude that there exists at least one process who does not currently need
+			resources. Thus the system cannot yet be in deadlock as this process has resources to execute,
+			this contradicts our assumption that we were in deadlock. Therefore $(a)$ and $(b)$ guarantee
+			that the system is deadlock free.
+
+		\end{proof}
 	\end{addmargin}
 
 %% Problem 7.22

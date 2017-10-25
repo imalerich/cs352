@@ -1,0 +1,106 @@
+\documentclass[12pt]{jhwhw}
+\author{Ian Malerich}
+\title{Com S 352: Homework 6}
+\usepackage{amssymb, amsfonts, mathtools, graphicx, breqn}
+\usepackage{minted, subfig, float, scrextend, setspace, soul, amsthm, multirow}
+\usemintedstyle{friendly}
+
+\onehalfspacing
+\begin{document}
+\raggedright
+
+\textbf{8.13}  
+	Compare the memory organization schemes of contiguous memory allocation, 
+	pure segmentation, and pure paging with respect to the following issues.
+	\begin{enumerate}
+		\item External Fragmentation
+		\item Internal Fragmentation
+	\end{enumerate}
+\textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
+
+	\begin{addmargin}[1em]{}
+	\end{addmargin}
+
+\textbf{8.20}  
+	Assuming a 1-KB page size, what are the page numbers for the following address
+	references (provided as decimal numbers):
+	\begin{enumerate}
+		\item 3085
+		\item 42095
+		\item 215201
+		\item 650000
+		\item 2000001
+	\end{enumerate}
+\textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
+
+	\begin{addmargin}[1em]{}
+	\end{addmargin}
+
+\textbf{8.23}  
+	Consider a logical address space of 256 pages with a 4-KB page size, mapped onto a physical
+	memory of 64 frames.
+	\begin{enumerate}
+		\item How many bits are required in the logical address?
+		\item How many bits are required in the physical address?
+	\end{enumerate}
+\textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
+
+	\begin{addmargin}[1em]{}
+	\end{addmargin}
+
+\textbf{9.21}  
+	Consider the following page reference string: \\
+	$$ 7,2,3,1,2,5,3,4,6,7,7,1,0,5,4,6,2,3,0,1 $$
+	Assuming demand paging with three frames, how many page faults would occur for the following
+	replacement algorithms?
+	\begin{enumerate}
+		\item LRU Replacement
+		\item FIFO Replacement
+		\item Optimal Replacement
+	\end{enumerate}
+\textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
+
+	\begin{addmargin}[1em]{}
+	\end{addmargin}
+
+\textbf{9.27}  
+	Consider a demand-paging system with the following time-measured utilizations: \\
+	CPU utilization 20\% \\
+	Paging disk 97.7\% \\
+	Other I/O devices 5\% \\
+	For each of the following, indicate whether it will (or is likely to) improve
+	CPU utilization. Explain your answers.
+	\begin{enumerate}
+		\item Install a faster CPU.
+		\item Install a bigger paging disk.
+		\item Increase the degree of multiprogramming.
+		\item Decrease the degree of multiprogramming.
+		\item Install more main memory.
+		\item Install a faster hard disk or multiple controllers with multiple hard disks.
+		\item Add pre paging to the page-fetch algorithms.
+		\item Increase the page size.
+	\end{enumerate}
+\textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
+
+	\begin{addmargin}[1em]{}
+	\end{addmargin}
+
+\textbf{9.32}  
+	What is the cause of thrashing? How does the system detect thrashing? Once it detects 
+	thrashing, what can the system do to eliminate this problem?
+\textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
+
+	\begin{addmargin}[1em]{}
+	\end{addmargin}
+
+\textbf{9.34}  
+	Consider the parameter $\delta$ used to define the working-set window in the working-set model.
+	When $\delta$ is set to a small value, what is the effect on the page-fault frequency and the number
+	of active (non-suspended) processes currently executing in the system? What is the effect when $\delta$
+	is set to a very high value?
+\textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
+
+	\begin{addmargin}[1em]{}
+	\end{addmargin}
+
+\end{document}
