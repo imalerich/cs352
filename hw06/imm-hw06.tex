@@ -19,34 +19,53 @@
 \textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
 
 	\begin{addmargin}[1em]{}
+		With \hl{contiguous memory} as new processes are allocated and released, because they are tightly
+		packed, processes leaving memory will leave gaps which may or may not be filled, thus contiguous
+		memory suffers from external fragmentation.
+
+		\bigbreak
+		\hl{Pure paging} will similarly suffer from external fragmentation as a process segment is still
+		aligned continuously in memory. Segments of processes which have been released my be replaced
+		by smaller processes, still leaving holes.
+
+		\bigbreak
+		By using \hl{pure paging} external fragmentation can be removed as each processes is asigned
+		discrete well defined, equal sized blocks of memory. Thus the system can guarantee that
+		each block of memory is assigned to some process (if need be). However, pure paging will
+		now suffer from internal fragmentation, pages not completely utilized by a process
+		lead to a waste of space (internal fragmentation).
 	\end{addmargin}
 
+\bigbreak
 \textbf{8.20}  
 	Assuming a 1-KB page size, what are the page numbers for the following address
 	references (provided as decimal numbers):
 	\begin{enumerate}
-		\item 3085
+		\item 3085 
+			$$ \frac{3085}{1024} = 3.012695 \Rightarrow 3$$
 		\item 42095
+			$$ \frac{42095}{1024} = 41.1084 \Rightarrow 41$$
 		\item 215201
+			$$ \frac{215201}{1024} = 210.1572 \Rightarrow 210$$
 		\item 650000
+			$$ \frac{650000}{1024} = 634.7656 \Rightarrow 634$$
 		\item 2000001
+			$$ \frac{2000001}{1024} = 1953.126 \Rightarrow 1953$$
 	\end{enumerate}
 \textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
-
-	\begin{addmargin}[1em]{}
-	\end{addmargin}
 
 \textbf{8.23}  
 	Consider a logical address space of 256 pages with a 4-KB page size, mapped onto a physical
 	memory of 64 frames.
 	\begin{enumerate}
-		\item How many bits are required in the logical address?
+		\item How many bits are required in the logical address? \\
+			$$256\times 4\times 1024 = 1048576\text{ logical memory locations }
+			\Rightarrow log_2(1048576) = 20\text{ bits }$$
 		\item How many bits are required in the physical address?
+			$$64\times 4\times 1024 = 262144\text{ physical memory locations }
+			\Rightarrow log_2(262144) = 18\text{ bits }$$
 	\end{enumerate}
 \textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
-
-	\begin{addmargin}[1em]{}
-	\end{addmargin}
 
 \textbf{9.21}  
 	Consider the following page reference string: \\
@@ -54,9 +73,48 @@
 	Assuming demand paging with three frames, how many page faults would occur for the following
 	replacement algorithms?
 	\begin{enumerate}
-		\item LRU Replacement
-		\item FIFO Replacement
-		\item Optimal Replacement
+		\item LRU Replacement \\
+			\begin{addmargin}[-3em]{}
+			\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+				\hline
+				$7_m$ & $2_m$ & $3_m$ & $1_m$ & $2_h$ & $5_m$ & 
+				$3_m$ & $4_m$ & $6_m$ & $7_m$ & $7_h$ & $1_m$ & 
+				$0_m$ & $5_m$ & $4_m$ & $6_m$ & $2_m$ & $3_m$ & $0_m$ & $1_m$ \\
+				\hline\hline
+				7&7&7&1&1&1&3&3&3&7&7&7&7&5&5&5&2&2&2&1\\ \hline
+				 &2&2&2&2&2&2&4&4&4&4&1&1&1&4&4&4&3&3&3\\ \hline
+				 & &3&3&3&5&5&5&6&6&6&6&0&0&0&6&6&6&0&0\\ \hline
+			\end{tabular}
+			\end{addmargin}
+			\hl{18 page faults.}
+		\item FIFO Replacement \\
+			\begin{addmargin}[-3em]{}
+			\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+				\hline
+				$7_m$ & $2_m$ & $3_m$ & $1_m$ & $2_h$ & $5_m$ & 
+				$3_h$ & $4_m$ & $6_m$ & $7_m$ & $7_h$ & $1_m$ & 
+				$0_m$ & $5_m$ & $4_m$ & $6_m$ & $2_m$ & $3_m$ & $0_m$ & $1_m$ \\
+				\hline\hline
+				 7&7&7&1&1&1&1&1&6&6&6&6&0&0&0&6&2&2&2&1\\ \hline
+				  &2&2&2&2&5&5&5&5&7&7&7&7&5&5&5&5&3&3&3\\ \hline
+				  & &3&3&3&3&3&4&4&4&4&1&1&1&4&4&4&4&0&0\\ \hline
+			\end{tabular}
+			\end{addmargin}
+			\hl{17 page faults.}
+		\item Optimal Replacement \\
+			\begin{addmargin}[-3em]{}
+			\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+				\hline
+				$7_m$ & $2_m$ & $3_m$ & $1_m$ & $2_h$ & $5_m$ & 
+				$3_h$ & $4_m$ & $6_m$ & $7_m$ & $7_h$ & $1_h$ & 
+				$0_m$ & $5_h$ & $4_m$ & $6_m$ & $2_m$ & $3_m$ & $0_h$ & $1_h$ \\
+				\hline\hline
+				7&7&7&1&1&1&1&1&1&1&1&1&1&1&1&1&1&1&1&1\\ \hline
+				 &2&2&2&2&5&5&5&5&5&5&5&5&5&4&6&2&3&3&3\\ \hline
+				 & &3&3&3&3&3&3&6&7&7&7&0&0&0&0&0&0&0&0\\ \hline
+			\end{tabular}
+			\end{addmargin}
+			\hl{13 page faults.}
 	\end{enumerate}
 \textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
 
@@ -91,16 +149,34 @@
 \textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
 
 	\begin{addmargin}[1em]{}
+		If a system does not meet the minimum number of pages required by a process, pages will
+		continuously fault causing disk operations, which in turn cause context switches, which cause
+		further page faults taking up necessary pages for the original process. This cycle of page faults
+		leading to no net work is known as thrashing. \\
+		To eliminate this problem, the system can detect the thrashing by analyzing and evaluating
+		CPU utilization relative to degree of multiprogramming. If thrashing occurs, the system
+		can decrease the level of multiprogramming, allowing processes time to store all necessary
+		pages in memory to perform their work (without a context switch interrupting and disrupting them).
 	\end{addmargin}
 
+\bigbreak
 \textbf{9.34}  
-	Consider the parameter $\delta$ used to define the working-set window in the working-set model.
-	When $\delta$ is set to a small value, what is the effect on the page-fault frequency and the number
-	of active (non-suspended) processes currently executing in the system? What is the effect when $\delta$
+	Consider the parameter $\Delta$ used to define the working-set window in the working-set model.
+	When $\Delta$ is set to a small value, what is the effect on the page-fault frequency and the number
+	of active (non-suspended) processes currently executing in the system? What is the effect when $\Delta$
 	is set to a very high value?
 \textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
 
 	\begin{addmargin}[1em]{}
+		With a small $\Delta$ value, required pages for a processes may not be met, causing
+		processes to run which do not have the resources to run. This results in a large
+		number of page faults, with many active processes.
+		\bigbreak
+		Conversely, with a large $\Delta$ value, required pages for a process will be overestimated,
+		this will decrease the current number of working processes, but each process
+		will have the resources to run. Thus there will be a small number of 
+		page faults, and fewer processes, but due to the overestimating processes may not be scheduled
+		even if there are enough resources available.
 	\end{addmargin}
 
 \end{document}
