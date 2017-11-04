@@ -8,4 +8,6 @@
 *.o
 osh
 obj
+pr02/client/client
+pr02/server/server
 _minted*
