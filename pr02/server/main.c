@@ -7,7 +7,7 @@
 #include <netinet/in.h>
 
 int main(int argc, char ** argv) {
-	const int portno = 8675309;
+	const int portno = 50001;
 
 	/* --- Setup the socket. --- */
 	int sockfd = socket(AF_INET, SOCK_STREAM, 0);

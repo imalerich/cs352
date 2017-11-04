@@ -12,7 +12,7 @@
 #include <encoder.h>
 
 int main(int argc, char ** argv) {
-	const int portno = 8675309;
+	const int portno = 50001;
 	const char * ip_addr = "127.0.0.1";
 
 	/* -- Read the line to send. --- */
