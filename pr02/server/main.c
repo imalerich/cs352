@@ -25,23 +25,27 @@ int main(int argc, char ** argv) {
 	listen(sockfd, 5);
 	struct sockaddr_in client_addr;
 
-	/* --- Connect to a client. --- */
-	int clilen = sizeof(client_addr);
-	int newsockfd = accept(sockfd, (struct sockaddr *)&client_addr, &clilen);
+	while (1) {
+		/* --- Connect to a client. --- */
+		int clilen = sizeof(client_addr);
+		int newsockfd = accept(sockfd, (struct sockaddr *)&client_addr, &clilen);
 
-	/* --- Begin communication. --- */
-	char buffer[256];
-	bzero(buffer, 256);
-	read(newsockfd, buffer, 255); 
-	// TODO: buffer is the line
-	printf("%s\n", buffer);
-	read(newsockfd, buffer, 255);
-	// TODO: buffer is the SHA-1 encoding
-	printf("%s\n", buffer);
-	
-	const char * msg = "Message";
-	write(newsockfd, msg, strlen(msg));
-	close(newsockfd);
+		/* --- Begin communication. --- */
+		char buffer[256];
+
+		bzero(buffer, 256);
+		read(newsockfd, buffer, 255); 
+		printf("%s\n", buffer);
+
+		bzero(buffer, 256);
+		read(newsockfd, buffer, 255);
+		printf("%s\n", buffer);
+		
+		const char * msg = "Success";
+		write(newsockfd, msg, strlen(msg));
+		
+		close(newsockfd);
+	}
 
 	return 0;
 }
