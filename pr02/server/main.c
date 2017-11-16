@@ -66,6 +66,7 @@ int main(int argc, char ** argv) {
 		#endif
 	}
 
+	close(sockfd);
 	return 0;
 }
 
@@ -96,9 +97,8 @@ void * handle_client(void * p_clientfd) {
 		SHA1(message, strlen(message), hash);
 		hash[SHA_DIGEST_LENGTH] = '\0';
 		char * check = stringToEncodedAscii(hash);
-		printf("check\n%s\n", check);
 
-		if (strcmp(hash, signature) == 0) {
+		if (strcmp(check, signature) == 0) {
 			const char * msg = "true";
 			write(clientfd, msg, strlen(msg)+1);
 		} else {

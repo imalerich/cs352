@@ -119,7 +119,8 @@ char * stringToEncodedAscii(char *s){
   
   //First, get the ASCII representation of the given string
   while(*ptr){
-    int asciiDecimal = (int)*ptr;
+	  unsigned char c = *ptr;
+    int asciiDecimal = c;
     int res = decimalToBinary(asciiDecimal);
     
     char snum[5];

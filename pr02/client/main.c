@@ -145,7 +145,6 @@ void encrypt_and_send(int socketfd, char * line, size_t len) {
 	SHA1(line, strlen(line), hash);
 	hash[SHA_DIGEST_LENGTH] = '\0';
 	char * signature = stringToEncodedAscii(hash);
-	printf("signature\n%s\n", signature);
 
 	write(socketfd, signature, strlen(signature)+1);
 	free(signature);

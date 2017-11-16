@@ -9,7 +9,7 @@ INC = -I ../shared/ -lssl -lcrypto -lm -pthread
 all: server.bin ../shared/*
 
 server.bin: main.c
-	gcc -std=c99 -o $(OUT) $(SRC) $(INC) $(THREADS)
+	gcc -o $(OUT) $(SRC) $(INC) $(THREADS)
 
 clean:
 	rm -rf server
