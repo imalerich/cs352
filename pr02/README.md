@@ -10,6 +10,12 @@ but the root makefile will make a symbolic link to a 'client.bin' and
 'server.bin' application at the root level of this project for 
 convenience.
 
+This application provides a default ip address when you jus thit enter,
+as discussed below however though this worked fine on my remote machine
+when logged into pyrite I found I had to be explicit about the ip address
+I was connecting to to get it to work, particularly when running 
+the client and server in different ssh sessions.
+
 ## client/main.c
 
 Source code for the application. Requests a server from the user,

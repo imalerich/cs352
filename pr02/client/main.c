@@ -47,7 +47,7 @@ void encrypt_and_send(int socketfd, char * line, size_t len);
 void receive_response(FILE * file);
 
 int main(int argc, char ** argv) {
-	const int portno = 50001;
+	const int portno = 85628;
 	char * ip_addr;
 	prompt_ip(&ip_addr);
 	printf("Connecting to: %s\n", ip_addr);
@@ -138,7 +138,8 @@ bool read_message(char ** line, size_t * len) {
 
 void encrypt_and_send(int socketfd, char * line, size_t len) {
 	/* --- Send message to server. --- */
-	write(socketfd, line, len+1);
+	int n = send(socketfd, line, len+1, MSG_NOSIGNAL);
+	if (n < 0) { fprintf(stderr, "Error - send failed, check your ip address.\n"); }
 
 	/* --- Calculate the 20-Byte SHA-1 hash. --- */
 	unsigned char hash[SHA_DIGEST_LENGTH+1];
@@ -146,7 +147,8 @@ void encrypt_and_send(int socketfd, char * line, size_t len) {
 	hash[SHA_DIGEST_LENGTH] = '\0';
 	char * signature = stringToEncodedAscii(hash);
 
-	write(socketfd, signature, strlen(signature)+1);
+	n = write(socketfd, signature, strlen(signature)+1, MSG_NOSIGNAL);
+	if (n < 0) { fprintf(stderr, "Error - send failed, check your ip address.\n"); }
 	free(signature);
 }
 
