@@ -147,7 +147,7 @@ void encrypt_and_send(int socketfd, char * line, size_t len) {
 	hash[SHA_DIGEST_LENGTH] = '\0';
 	char * signature = stringToEncodedAscii(hash);
 
-	n = write(socketfd, signature, strlen(signature)+1, MSG_NOSIGNAL);
+	n = send(socketfd, signature, strlen(signature)+1, MSG_NOSIGNAL);
 	if (n < 0) { fprintf(stderr, "Error - send failed, check your ip address.\n"); }
 	free(signature);
 }
