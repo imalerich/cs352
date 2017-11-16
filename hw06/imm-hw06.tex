@@ -129,19 +129,41 @@
 	For each of the following, indicate whether it will (or is likely to) improve
 	CPU utilization. Explain your answers.
 	\begin{enumerate}
-		\item Install a faster CPU.
-		\item Install a bigger paging disk.
-		\item Increase the degree of multiprogramming.
-		\item Decrease the degree of multiprogramming.
-		\item Install more main memory.
-		\item Install a faster hard disk or multiple controllers with multiple hard disks.
-		\item Add pre paging to the page-fetch algorithms.
-		\item Increase the page size.
+		\item Install a faster CPU. \\
+			This will obviously not improve CPU utilization, as it stands, we are currently
+			only using 20\%, our current CPU has plenty of room for growth, having faster
+			processing will only decrease current utilization.
+		\item Install a bigger paging disk. \\
+			Could help, but not likely. Our high paging usage is due to insufficient main
+			memory such that our processes need to frequently access the paging disk.
+			Increasing the paging disk does not help solve this main problem.
+		\item Increase the degree of multiprogramming. \\
+			This will not help. Increasing the degree of multiprogramming will require us to 
+			keep more pages in memory, but clearly as our utilization is 97.7\% we cannot
+			afford this, our other processes will suffer and hurt our CPU utilization.
+		\item Decrease the degree of multiprogramming. \\
+			On the contrary, this will indeed help. Each process can keep pages around in
+			memory and will decrease paging disk utilization. Less time will be spent
+			by processes waiting for the paging disk and processes will then run more efficiently.
+		\clearpage
+		\item Install more main memory. \\
+			This will probably help the most, our biggest bottle neck is waiting for the paging
+			disk. With more memory, the paging disk will need to be used much less,
+			therefore processes can continue executing longer increasing CPU utilization.
+		\item Install a faster hard disk or multiple controllers with multiple hard disks. \\
+			We are only using 5\% I/O utilization, improving the speed of I/O operations is
+			not likely to help much as noted before our problem is with paging not I/O.
+		\item Add pre paging to the page-fetch algorithms. \\
+			This could help, paging disk utilization is already very high, and pre paging
+			does not come for free so this is not likely practical. At best this will allow
+			processes to run sooner and for longer and may slightly bump CPU utilization.
+		\item Increase the page size. \\
+			Again, this might help. But decreasing the degree of multiprogramming or installing
+			more main memory would be a much better solution. The best this could do is allow
+			a current running process to run for a little bit longer before it page faults.
+			However paging disk operations will take longer, so these may cancel out the benefit.
 	\end{enumerate}
 \textcolor[RGB]{240,240,240}{\rule{\textwidth}{0.5pt}}\bigbreak
-
-	\begin{addmargin}[1em]{}
-	\end{addmargin}
 
 \textbf{9.32}  
 	What is the cause of thrashing? How does the system detect thrashing? Once it detects 

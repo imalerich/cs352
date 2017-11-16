@@ -1,10 +1,23 @@
 #include <stdio.h>
+#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdbool.h>
+#include <pthread.h>
 
-#include <netdb.h>
+#include <openssl/sha.h>
 #include <netinet/in.h>
+#include <encoder.h>
+#include <netdb.h>
+#include <util.h>
+
+/**
+ * Performs all the necessary handling for a connected client.
+ * This should be called on a secondary thread/process
+ * so the main thread/process can continue to receive clients.
+ */
+void * handle_client(void * p_clientfd);
 
 int main(int argc, char ** argv) {
 	const int portno = 50001;
@@ -25,27 +38,75 @@ int main(int argc, char ** argv) {
 	listen(sockfd, 5);
 	struct sockaddr_in client_addr;
 
-	while (1) {
+	while (true) {
 		/* --- Connect to a client. --- */
 		int clilen = sizeof(client_addr);
-		int newsockfd = accept(sockfd, (struct sockaddr *)&client_addr, &clilen);
+		int clientfd = accept(sockfd, (struct sockaddr *)&client_addr, &clilen);
 
-		/* --- Begin communication. --- */
-		char buffer[256];
+		#ifdef __USE_THREADING 
+			/* --- Create a new thread to handle the client. --- */
+			pthread_t child;
+			int status = pthread_create(&child, NULL, handle_client, (void *)&clientfd);
+			if (status) {
+				fprintf(stderr, "Error - pthread_create() returned error code: %d\n", status);
+				exit(EXIT_FAILURE);
+			}
 
-		bzero(buffer, 256);
-		read(newsockfd, buffer, 255); 
-		printf("%s\n", buffer);
+		#else
+			/* --- Create a new Process to handle the client. --- */
+			pid_t pid = fork();
+			if (pid == 0) {
+				handle_client((void *)&clientfd);
+				exit(0);
+			} else if (pid < 0) {
+				fprintf(stderr, "Error - call to fork() failed.");
+				exit(EXIT_FAILURE);
+			}
 
-		bzero(buffer, 256);
-		read(newsockfd, buffer, 255);
-		printf("%s\n", buffer);
-		
-		const char * msg = "Success";
-		write(newsockfd, msg, strlen(msg));
-		
-		close(newsockfd);
+		#endif
 	}
 
 	return 0;
+}
+
+/* --- Handle Client. --- */
+
+void * handle_client(void * p_clientfd) {
+	int clientfd = *(int *)p_clientfd;
+	FILE * file = fdopen(clientfd, "r");
+
+	// the client we are connected to can send multiple commands
+	// read every message that they send until we receive an exit
+	bool eof_reached = false;
+	while (!eof_reached) {
+		// first read the actual message sent
+		char * message;
+		eof_reached = read_buffer(file, &message);
+
+		// if we have reached the end of the file
+		// and the client didn't actually give us anything
+		// worth looking at, we can go ahead and break out of the loop
+		if (eof_reached && strlen(message) == 0) { break; }
+
+		// check if the client is about to disconnect
+		static const char * exit_str = "exit";
+		if (strcmp((const char *)&message, exit_str) == 0) {
+			break;
+		}
+
+		// then read the digital signature
+		char * signature;
+		eof_reached = read_buffer(file, &signature);
+
+		// TODO : check the signature
+
+		const char * msg = "true";
+		write(clientfd, msg, strlen(msg)+1);
+
+		free(message);
+		free(signature);
+	}
+	
+	fclose(file);
+	close(clientfd);
 }

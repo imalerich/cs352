@@ -187,15 +187,3 @@ void stringToEncodedAscii(char *s){
   printf("\nstringToEncodedAscii :: %s",finalResEncoded);
   
 }
-
-int main() {
-  
-  char s[256];
-  printf("enter the string : ");
-  scanf("%s", s);
-  
-  stringToAscii(s);
-  stringToReverseAscii(s);
-  stringToEncodedAscii(s);
-  return 0;
-}
