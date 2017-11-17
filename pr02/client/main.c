@@ -141,13 +141,14 @@ void encrypt_and_send(int socketfd, char * line, size_t len) {
 	write(socketfd, line, len+1);
 
 	/* --- Calculate the 20-Byte SHA-1 hash. --- */
-	unsigned char hash[SHA_DIGEST_LENGTH];
-	SHA1(line, len, hash);
-	hash[len] = '\0';
+	unsigned char hash[SHA_DIGEST_LENGTH+1];
+	SHA1(line, strlen(line), hash);
+	hash[SHA_DIGEST_LENGTH] = '\0';
+	char * signature = stringToEncodedAscii(hash);
+	printf("signature\n%s\n", signature);
 
-	// TODO: Encrypt the hash to send as signature.
-
-	write(socketfd, hash, len+1);
+	write(socketfd, signature, strlen(signature)+1);
+	free(signature);
 }
 
 /* --- Receive Response. --- */

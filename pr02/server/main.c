@@ -88,23 +88,27 @@ void * handle_client(void * p_clientfd) {
 		// worth looking at, we can go ahead and break out of the loop
 		if (eof_reached && strlen(message) == 0) { break; }
 
-		// check if the client is about to disconnect
-		static const char * exit_str = "exit";
-		if (strcmp((const char *)&message, exit_str) == 0) {
-			break;
-		}
-
 		// then read the digital signature
 		char * signature;
 		eof_reached = read_buffer(file, &signature);
 
-		// TODO : check the signature
+		unsigned char hash[SHA_DIGEST_LENGTH+1];
+		SHA1(message, strlen(message), hash);
+		hash[SHA_DIGEST_LENGTH] = '\0';
+		char * check = stringToEncodedAscii(hash);
+		printf("check\n%s\n", check);
 
-		const char * msg = "true";
-		write(clientfd, msg, strlen(msg)+1);
+		if (strcmp(hash, signature) == 0) {
+			const char * msg = "true";
+			write(clientfd, msg, strlen(msg)+1);
+		} else {
+			const char * msg = "false";
+			write(clientfd, msg, strlen(msg)+1);
+		}
 
 		free(message);
 		free(signature);
+		free(check);
 	}
 	
 	fclose(file);

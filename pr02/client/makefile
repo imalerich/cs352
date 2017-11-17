@@ -5,7 +5,7 @@ INC = -I ../shared/ -lssl -lcrypto -lm
 all: client.bin ../shared/*
 
 client.bin: main.c
-	gcc -o $(OUT) $(SRC) $(INC)
+	gcc -std=c99 -o $(OUT) $(SRC) $(INC)
 
 clean:
 	rm -rf client
